@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html ng-app="talesfromthecrypt">
+
+<body>
+<div id="content" class="container">
+        <div ng-controller="MessageEncryptCtrl" class="encrypt-form">
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12" id="form">
+                    <!--<h1><i class="icon-lock"></i> Text to encrypt (or encrypted code to decrypt):</h1>-->
+
+                    <form action="/encryption" method="POST" id="frm" class="form">
+                        <div class="form-group">
+                            <textarea id="message" name="txt" rows="10" style="width: 100%" class="form-control" ng-model="message"></textarea>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-3 col-md-3 col-sm-3" ng-class="{'has-error': haveMessage && !havePass}">
+                                <label>
+                                    Password
+                                    <input type="password" name="password" class="form-control" ng-model="password"/>
+                                </label>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3" ng-class="{'has-error': havePass && !havePassConfirmed && password2.length > 0}">
+                                <label>
+                                    Confirm Password
+                                    <input type="password" name="password2" class="form-control" ng-model="password2"/>
+                                </label>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 form-actions">
+                                <button type="submit" name="submit" value="Encrypt" class="btn btn-primary" ng-click="doEncrypt($event)" ng-class="{'disabled': !(haveMessage && havePass && havePassConfirmed)}">
+                                    <i ng-class="{'icon-lock': !encrypting, 'icon-spinner': encrypting, 'icon-spin': encrypting}"></i> Encrypt
+                                </button>
+                                <strong>Or</strong>
+                                <button type="submit" name="submit" value="Decrypt" class="btn btn-primary" ng-click="doDecrypt($event)" ng-class="{'disabled': !haveMessage}">
+                                    <i ng-class="{'icon-unlock': !decrypting, 'icon-spinner': decrypting, 'icon-spin': decrypting}"></i> Decrypt
+                                </button>
+                                <button name="safe" value="Link to Encrypted" class="btn btn-primary ng-hide" style="margin-left: 20px" ng-click="showSafeDlg($event)" ng-show="haveEncryptedMessage">
+                                    <i class="icon-cloud-upload"></i> Link to Encrypted
+                                </button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                    <div class="alert alert-danger ng-hide" id="error-message" ng-show="errorMessage">
+                        <span class="message" ng-hide="errorMessage">
+                            
+                        </span>
+                        <span class="message" ng-cloak>
+                            {{errorMessage}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+</div>
+<script src="assets/core.js" type="text/javascript"></script>
+<script src="assets/index.js" type="text/javascript"></script>
+</body>
+</html>
+
